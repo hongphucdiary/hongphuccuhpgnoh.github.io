@@ -1,0 +1,19 @@
+title: "My Travel Diary"
+description: "Dates, captions, and photos from the road"
+theme: jekyll-theme-minimal
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Pretty URLs for posts
+permalink: /diary/:year/:month/:day/:title/
+
+# Navbar links
+nav:
+  - name: Diary
+    url: /
+  - name: Contract
+    url: /contract
+
+# Optional metadata
+timezone: Asia/Singapore
