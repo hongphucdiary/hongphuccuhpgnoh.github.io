@@ -1,0 +1,49 @@
+name: Generate thumbnails
+
+on:
+  push:
+    paths:
+      - "assets/photos/**/*.jpg"
+      - "assets/photos/**/*.jpeg"
+      - "assets/photos/**/*.png"
+
+jobs:
+  thumbs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install sharp
+        run: npm install sharp glob
+
+      - name: Generate thumbnails
+        run: |
+          node <<'EOF'
+          const sharp = require("sharp");
+          const glob = require("glob");
+          const fs = require("fs");
+
+          const files = glob.sync("assets/photos/**/*.{jpg,jpeg,png}");
+          (async () => {
+            for (const f of files) {
+              if (f.includes("_thumb")) continue;
+              const out = f.replace(/(\.[^.]+)$/, "_thumb.jpg");
+              if (fs.existsSync(out)) continue;
+
+              await sharp(f)
+                .resize({ width: 1200 })
+                .jpeg({ quality: 75 })
+                .toFile(out);
+
+              console.log("created:", out);
+            }
+          })();
+          EOF
+
+      - name: Commit thumbnails
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets/photos
+          git commit -m "Auto-generate thumbnails" || echo "No changes"
+          git push
