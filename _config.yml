@@ -1,4 +1,4 @@
-title: "My Travel Diary"
+title: "Phuc and Hong’s Diary"
 description: "Dates, captions, and photos from the road"
 theme: jekyll-theme-minimal
 plugins:
@@ -7,13 +7,6 @@ plugins:
 
 # Pretty URLs for posts
 permalink: /diary/:year/:month/:day/:title/
-
-# Navbar links
-nav:
-  - name: Diary
-    url: /
-  - name: Contract
-    url: /contract
 
 # Optional metadata
 timezone: Asia/Singapore
